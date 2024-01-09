@@ -11,11 +11,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // test
+    //* test
+
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: themeMetod(),
-        home: const Directionality(
-            textDirection: TextDirection.rtl, child: HomeScreen()));
+      debugShowCheckedModeBanner: false,
+      theme: themeMetod(),
+      home: const Directionality(
+        textDirection: TextDirection.rtl,
+        child: HomeScreen(),
+      ),
+    );
   }
 
 //! theme

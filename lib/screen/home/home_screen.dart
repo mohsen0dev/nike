@@ -8,12 +8,15 @@ import 'package:nike/data/source/baner_source.dart';
 import 'package:nike/data/source/product_data_source.dart';
 import 'package:nike/screen/home/bloc/home_bloc.dart';
 import 'package:nike/utils/constants.dart';
+import 'package:nike/utils/number_formating.dart';
+import 'package:nike/utils/theme.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme themData = Theme.of(context).textTheme;
     return BlocProvider(
       create: (context) {
         final homeBloc = HomeBloc(
@@ -33,11 +36,14 @@ class HomeScreen extends StatelessWidget {
                   itemCount: 4,
                   itemBuilder: (context, i) {
                     switch (i) {
+                      //! logo
                       case 0:
                         return Image.asset(
                           'assets/img/nike.png',
-                          height: 100,
+                          fit: BoxFit.contain,
+                          height: 60,
                         );
+                      //! banner
                       case 1:
                         return SizedBox(
                             height: 250,
@@ -51,21 +57,45 @@ class HomeScreen extends StatelessWidget {
                                         CircularProgressIndicator(
                                             value: downloadProgress.progress),
                                 errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                    const Icon(Icons.error),
                                 // height: 100,
                                 width: 200,
                               ),
                             ));
+                      //! jadid
                       case 2:
                         return SizedBox(
                             height: 350,
-                            child:
-                                ListItems(productList: state.popularProduct));
+                            child: Column(
+                              children: [
+                                titleList(
+                                  themData: themData,
+                                  title: 'جدیدترین',
+                                  onPressed: () {},
+                                ),
+                                Expanded(
+                                    child: ListItems(
+                                        productList: state.popularProduct)),
+                              ],
+                            ));
                       // return ProductLove(productTestt: productTestt);
+                      //! bazdid
                       case 3:
-                        return Container(
-                            height: 350,
-                            child: ListItems(productList: state.latestProduct));
+                        return SizedBox(
+                          height: 380,
+                          child: Column(
+                            children: [
+                              titleList(
+                                themData: themData,
+                                title: 'پربازدیدترین',
+                                onPressed: () {},
+                              ),
+                              Expanded(
+                                  child: ListItems(
+                                      productList: state.latestProduct)),
+                            ],
+                          ),
+                        );
 
                       default:
                         return Container();
@@ -76,6 +106,33 @@ class HomeScreen extends StatelessWidget {
             }
           }),
         ),
+      ),
+    );
+  }
+
+  Widget titleList(
+      {required String title,
+      required Function() onPressed,
+      required TextTheme themData}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: themData.titleMedium!.apply(
+                color: LightThemeColors.secondaryTextColor,
+                fontSizeFactor: 1.1),
+          ),
+          TextButton(
+              onPressed: onPressed,
+              child: Text(
+                'مشاهده همه',
+                style: themData.titleMedium!
+                    .apply(color: LightThemeColors.primaryColor),
+              )),
+        ],
       ),
     );
   }
@@ -91,49 +148,58 @@ class ListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.all(8),
-      color: Colors.green,
-      child: ListView.builder(
-        // shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: productList.length,
-        itemBuilder: (BuildContext context, int index) {
-          var mahsolat = productList[index];
-          return Container(
-            color: Colors.blue,
-            margin: const EdgeInsets.all(8.0),
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.amber,
-                  child: CachedNetworkImage(
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      shrinkWrap: true,
+      itemCount: productList.length,
+      itemBuilder: (BuildContext context, int index) {
+        var mahsolat = productList[index];
+        return Container(
+          // color: Colors.cyan,
+          margin: const EdgeInsets.only(left: 5.0, right: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  CachedNetworkImage(
                     imageUrl: mahsolat.imageUrl,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) =>
                             CircularProgressIndicator(
                                 value: downloadProgress.progress),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                     // height: 100,
                     width: 150,
                   ),
-                ),
-                SizedBox(
-                    width: 150,
-                    child: Text(
-                      mahsolat.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                Text(mahsolat.price.toString()),
-                Text(mahsolat.previousPrice.toString()),
-              ],
-            ),
-          );
-        },
-      ),
+                  const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Icon(Icons.favorite_outline),
+                  ),
+                ],
+              ),
+              Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5.0, vertical: 8),
+                  width: 150,
+                  child: Text(
+                    mahsolat.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  )),
+              Text(
+                '${mahsolat.previousPrice.toString().formatNumberWithCommas()} $vahed',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              Text(
+                '${mahsolat.price.formatNumberWithCommas()} $vahed',
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
