@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:nike/data/models/prodoct.dart';
+import 'package:nike/data/models/prodoct_model.dart';
 import 'package:nike/utils/validate.dart';
 
 abstract class IProductDataSource {

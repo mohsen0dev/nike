@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nike/data/models/baner_model.dart';
-import 'package:nike/data/models/prodoct.dart';
+import 'package:nike/data/models/prodoct_model.dart';
 import 'package:nike/data/repasitory/baner_repository.dart';
 import 'package:nike/data/repasitory/product_repository.dart';
 import 'package:nike/utils/exeptions.dart';

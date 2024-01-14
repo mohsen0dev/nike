@@ -32,9 +32,13 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
             bodyMedium: defaultTextStyle,
             bodySmall: defaultTextStyle.apply(
-                color: LightThemeColors.secondaryTextColor),
+                color: LightThemeColors.secondaryTextColor,
+                decoration: TextDecoration.lineThrough),
             //headline6
-            titleLarge: defaultTextStyle.copyWith(fontWeight: FontWeight.bold)),
+            titleLarge: defaultTextStyle.copyWith(
+                fontWeight: FontWeight.bold, fontSize: 18),
+            titleMedium:
+                defaultTextStyle.copyWith(fontWeight: FontWeight.bold)),
         colorScheme: const ColorScheme.light(
           primary: LightThemeColors.primaryColor,
           secondary: LightThemeColors.secondaryColor,

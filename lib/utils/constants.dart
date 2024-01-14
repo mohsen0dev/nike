@@ -6,4 +6,4 @@ final httpClient =
 
 const defaultScrollPhysics = BouncingScrollPhysics();
 
-const String vahed = 'تومان';
+const String vahed = ' تومان';

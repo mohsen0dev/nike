@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nike/data/models/prodoct.dart';
+import 'package:nike/data/models/prodoct_model.dart';
 import 'package:nike/data/repasitory/baner_repository.dart';
 import 'package:nike/data/repasitory/product_repository.dart';
 import 'package:nike/data/source/baner_source.dart';
 import 'package:nike/data/source/product_data_source.dart';
 import 'package:nike/screen/home/bloc/home_bloc.dart';
+import 'package:nike/screen/product/widget/product.dart';
 import 'package:nike/utils/constants.dart';
-import 'package:nike/utils/number_formating.dart';
 import 'package:nike/utils/theme.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -154,51 +154,7 @@ class ListItems extends StatelessWidget {
       itemCount: productList.length,
       itemBuilder: (BuildContext context, int index) {
         var mahsolat = productList[index];
-        return Container(
-          // color: Colors.cyan,
-          margin: const EdgeInsets.only(left: 5.0, right: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: mahsolat.imageUrl,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            CircularProgressIndicator(
-                                value: downloadProgress.progress),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    // height: 100,
-                    width: 150,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Icon(Icons.favorite_outline),
-                  ),
-                ],
-              ),
-              Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5.0, vertical: 8),
-                  width: 150,
-                  child: Text(
-                    mahsolat.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  )),
-              Text(
-                '${mahsolat.previousPrice.toString().formatNumberWithCommas()} $vahed',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              Text(
-                '${mahsolat.price.formatNumberWithCommas()} $vahed',
-              ),
-            ],
-          ),
-        );
+        return ProductItems(mahsolat: mahsolat);
       },
     );
   }

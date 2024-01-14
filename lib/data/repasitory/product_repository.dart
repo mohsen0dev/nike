@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:nike/data/models/prodoct.dart';
+import 'package:nike/data/models/prodoct_model.dart';
 import 'package:nike/data/source/product_data_source.dart';
 
 final http =
